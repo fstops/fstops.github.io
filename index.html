@@ -40,12 +40,14 @@ button.k:active{background:var(--line)}
 .opt.wrong{opacity:.45;text-decoration:line-through}
 button:disabled{opacity:.45;cursor:default}
 button:focus-visible{outline:3px solid var(--acc);outline-offset:1px}
+.tm{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:0 0 4px}.tm i{display:block;height:100%;background:var(--acc);width:100%}.tm i.low{background:var(--bad)}.tt{text-align:center;font-size:.9rem;color:var(--mute);margin-bottom:10px;font-variant-numeric:tabular-nums}
 .end{text-align:center}.end .big{font-size:2.4rem;font-weight:700;margin:8px 0}
 </style>
 </head>
 <body>
 <main>
 <h1>Gate Code</h1>
+<p style="color:var(--mute);margin:-6px 0 12px;font-size:.9rem">10 Sekunden pro Flug: je schneller, desto mehr Punkte (bis 100). Fehler und Tipps kosten je ein Drittel.</p>
 <div class="tabs" role="group" aria-label="Spielmodus">
 <button id="m1" aria-pressed="true">Code erraten</button>
 <button id="m2" aria-pressed="false">Stadt erraten</button>
@@ -58,41 +60,45 @@ if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch((
 const A=window.AP;
 const $=id=>document.getElementById(id);
 const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-let mode=1,qs,qi,score,done,buf,wrong,hintN,fb,opts,dis,pts;
+let mode=1,qs,qi,score,done,buf,wrong,hintN,fb,opts,dis,pts,tEnd,tInt;
 function newGame(){qs=sh(A).slice(0,10);qi=0;score=0;load()}
-function load(){done=false;buf="";wrong=0;hintN=0;fb="";dis=[];pts=3;const q=qs[qi];
-  if(mode===2)opts=sh([q].concat(sh(A.filter(a=>a!==q)).slice(0,3)));render()}
+function load(){done=false;buf="";wrong=0;hintN=0;fb="";dis=[];pts=3;tEnd=Date.now()+10000;const q=qs[qi];
+  if(mode===2)opts=sh([q].concat(sh(A.filter(a=>a!==q)).slice(0,3)));render();startTimer()}
 function left(){return Math.max(0,3-wrong-hintN)}
 function render(){
   const g=$("g");
   if(qi>=10){
-    const txt="Gate Code "+score+"/30 ("+(mode===1?"Code erraten":"Stadt erraten")+")";
-    g.innerHTML='<div class="q end"><small>Alle zehn Flüge gelandet</small><div class="big">'+score+' von 30</div><p>'+(score>=25?"Fast fehlerfrei.":score>=15?"Solide Landung.":"Noch etwas Übung am Gate.")+'</p></div><div class="row"><button onclick="newGame()">Nochmal</button><button id="cp">Ergebnis kopieren</button></div>';
+    const txt="Gate Code "+score+"/1000 ("+(mode===1?"Code erraten":"Stadt erraten")+")";
+    g.innerHTML='<div class="q end"><small>Alle zehn Flüge gelandet</small><div class="big">'+score+' von 1000</div><p>'+(score>=800?"Fast fehlerfrei.":score>=450?"Solide Landung.":"Noch etwas Übung am Gate.")+'</p></div><div class="row"><button onclick="newGame()">Nochmal</button><button id="cp">Ergebnis kopieren</button></div>';
     $("cp").onclick=()=>{try{navigator.clipboard.writeText(txt);$("cp").textContent="Kopiert"}catch(e){$("cp").textContent=txt}};return}
   const q=qs[qi];
-  let h='<div class="top"><span>Flug '+(qi+1)+' von 10</span><span>Punkte: '+score+'</span></div>';
+  let h='<div class="top"><span>Flug '+(qi+1)+' von 10</span><span>Punkte: '+score+'</span></div>'+(done?'':'<div class="tm"><i id="tb"></i></div><div class="tt" id="tt"></div>');
   if(mode===1){
     const full=q[0].slice(0,hintN)+buf;
     h+='<div class="q"><small>'+q[2]+'</small><h2>'+q[1]+'</h2></div><div class="board">';
     for(let i=0;i<3;i++){const c=done?q[0][i]:full[i]||"";h+='<div class="fl'+(i<hintN&&!done?" hint":"")+(!done&&i===full.length?" cur":"")+'">'+c+'</div>'}
     h+='</div><p class="fb '+(done?(pts>0?"ok":"bad"):"bad")+'" role="status">'+fb+'</p>';
-    if(!done){h+='<div id="kb">'+"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c=>'<button class="k" onclick="typeL(\''+c+'\')">'+c+'</button>').join("")+'<button class="k" style="min-width:60px" onclick="back()">⌫</button></div><div class="row"><button onclick="hint()" '+(left()>1&&hintN<2?"":"disabled")+'>Tipp (−1)</button></div>'}
+    if(!done){h+='<div id="kb">'+"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c=>'<button class="k" onclick="typeL(\''+c+'\')">'+c+'</button>').join("")+'<button class="k" style="min-width:60px" onclick="back()">⌫</button></div><div class="row"><button onclick="hint()" '+(left()>1&&hintN<2?"":"disabled")+'>Tipp (−⅓ Bonus)</button></div>'}
     else h+='<div class="row"><button onclick="nextQ()">'+(qi<9?"Weiter":"Ergebnis")+'</button></div>';
   }else{
     h+='<div class="board">'+q[0].split("").map(c=>'<div class="fl">'+c+'</div>').join("")+'</div><p class="fb '+(done?(pts>0?"ok":"bad"):"bad")+'" role="status">'+fb+'</p>';
     opts.forEach((o,i)=>{h+='<button class="opt'+(done&&o===q?" right":"")+(dis.includes(i)?" wrong":"")+'" '+(done||dis.includes(i)?"disabled":"")+' onclick="pick('+i+')">'+o[1]+'<br><small style="color:var(--mute)">'+o[2]+'</small></button>'});
     if(done)h+='<div class="row"><button onclick="nextQ()">'+(qi<9?"Weiter":"Ergebnis")+'</button></div>';
   }
-  g.innerHTML=h;
+  g.innerHTML=h;tick();
 }
-function finish(ok){done=true;pts=ok?left():0;score+=pts;fb=ok?"Richtig! +"+pts+" Punkte":"Das war "+qs[qi][0]+" – 0 Punkte";render()}
+function rem(){return Math.max(0,tEnd-Date.now())}
+function pot(){return Math.round(rem()/100*left()/3)}
+function finish(ok,late){if(done)return;clearInterval(tInt);done=true;pts=ok?pot():0;score+=pts;fb=ok?"Richtig! +"+pts+" Punkte":(late?"Zeit abgelaufen – ":"")+"Das war "+qs[qi][0]+" – 0 Punkte";render()}
+function startTimer(){clearInterval(tInt);if(qi>=10||done)return;tEnd=Date.now()+10000;tick();tInt=setInterval(tick,100)}
+function tick(){if(done)return;const r=rem(),b=$("tb"),t=$("tt");if(b){b.style.width=r/100+"%";b.className=r<3000?"low":""}if(t)t.textContent=(r/1000).toFixed(1)+" s · jetzt "+pot()+" Punkte";if(r<=0)finish(false,true)}
 function typeL(c){if(done)return;const q=qs[qi];buf+=c;
   if(hintN+buf.length===3){if(q[0].slice(0,hintN)+buf===q[0])return finish(true);
-    wrong++;buf="";if(left()<=0)return finish(false);fb="Nicht ganz – noch "+left()+" Punkt"+(left()>1?"e":"")}
+    wrong++;buf="";if(left()<=0)return finish(false);fb="Nicht ganz – Bonus sinkt, weiter!"}
   render()}
 function back(){buf=buf.slice(0,-1);render()}
 function hint(){if(left()>1&&hintN<2){hintN++;buf=buf.slice(0,3-hintN);fb="";render()}}
-function pick(i){if(done)return;if(opts[i]===qs[qi])return finish(true);dis.push(i);wrong++;fb="Falsch – noch "+left()+" Punkt"+(left()===1?"":"e");render()}
+function pick(i){if(done)return;if(opts[i]===qs[qi])return finish(true);dis.push(i);wrong++;fb="Falsch – Bonus sinkt, wähle neu";render()}
 function nextQ(){qi++;load()}
 document.addEventListener("keydown",e=>{if(mode!==1||qi>=10)return;
   if(/^[a-zA-Z]$/.test(e.key))typeL(e.key.toUpperCase());else if(e.key==="Backspace")back();else if(e.key==="Enter"&&done)nextQ()});
