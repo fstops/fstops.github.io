@@ -94,5 +94,3 @@ Das Projekt läuft über **GitHub Pages**:
 - Weitere Modi, z. B. Länderquiz oder Zahlencode (A = 1, B = 2 …)
 
 ---
-
-*Inspiriert vom Tagesrätsel NUMIGMA von [Gr3hab](https://github.com/Gr3hab/numfact).*
