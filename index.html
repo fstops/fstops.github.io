@@ -9,48 +9,67 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-:root{--bg:#e8edf2;--ink:#12202f;--mute:#5a6b7d;--card:#fff;--line:#b8c4d0;--board:#0e1a2b;--amber:#ffb81c;--ok:#2e8b57;--bad:#c0392b;--acc:#0b6e99;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a121d;--ink:#e6edf4;--mute:#8fa1b5;--card:#14202f;--line:#2f4157;--board:#050b14;--ok:#5fc48a;--bad:#ef7b6d;--acc:#5bc0eb}}
-:root[data-theme="dark"]{--bg:#0a121d;--ink:#e6edf4;--mute:#8fa1b5;--card:#14202f;--line:#2f4157;--board:#050b14;--ok:#5fc48a;--bad:#ef7b6d;--acc:#5bc0eb}
+:root{--bg:#e8eff7;--bg2:#cfdeee;--ink:#10202f;--mute:#5a6b7d;--card:#fff;--line:#c3cfdb;--board:#0b1626;--amber:#ffb81c;--ok:#1f9d63;--bad:#d64545;--acc:#0b78a8;--acc2:#2bb3d6;--sh:0 8px 24px rgba(16,32,47,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a121d;--bg2:#101d2e;--ink:#e6edf4;--mute:#8fa1b5;--card:#15233a;--line:#2f4157;--board:#050b14;--ok:#5fc48a;--bad:#ef7b6d;--acc:#4cc3d3;--acc2:#2e8fd8;--sh:0 8px 24px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#0a121d;--bg2:#101d2e;--ink:#e6edf4;--mute:#8fa1b5;--card:#15233a;--line:#2f4157;--board:#050b14;--ok:#5fc48a;--bad:#ef7b6d;--acc:#4cc3d3;--acc2:#2e8fd8;--sh:0 8px 24px rgba(0,0,0,.4)}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:520px;margin:0 auto;padding:16px 14px 28px}
-h1{font-size:1.45rem;margin:2px 0 12px;letter-spacing:.01em}
-.tabs{display:flex;gap:6px;margin-bottom:14px}
-.tabs button{flex:1;height:40px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;font:600 .95rem system-ui,sans-serif;cursor:pointer}
-.tabs button[aria-pressed="true"]{background:var(--acc);color:#fff;border-color:var(--acc)}
-.top{display:flex;justify-content:space-between;color:var(--mute);font-size:.9rem;margin-bottom:8px}
-.q{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+body{background:linear-gradient(180deg,var(--bg),var(--bg2)) fixed}
+main{max-width:520px;margin:0 auto;padding:16px 14px 32px}
+.hd{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.logo{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-size:1.6rem;box-shadow:var(--sh)}
+h1{font-size:1.5rem;margin:0;letter-spacing:.01em}
+.intro{color:var(--mute);margin:0 0 14px;font-size:.88rem;line-height:1.35}
+.tabs{display:flex;gap:4px;padding:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:14px;box-shadow:var(--sh)}
+.tabs button{flex:1;height:38px;border:0;background:transparent;color:var(--mute);border-radius:9px;font:600 .88rem system-ui,sans-serif;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff}
+.top{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:.85rem}
+.top span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:var(--mute)}
+.top span:last-child{color:var(--ink);font-weight:700}
+.q{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--acc);border-radius:12px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--sh)}
 .q small{color:var(--mute)}
 .q h2{margin:2px 0 0;font-size:1.35rem}
-.board{display:flex;gap:8px;justify-content:center;background:var(--board);padding:16px;border-radius:10px;margin-bottom:12px}
-.fl{width:58px;height:78px;border-radius:6px;background:linear-gradient(#1c2c44 49%,#050b14 50%,#1c2c44 51%);color:var(--amber);font:700 2.6rem/78px ui-monospace,Menlo,Consolas,monospace;text-align:center}
-.fl.cur{outline:2px solid var(--amber)}
-.fl.hint{color:#8fd3ff}
-.fb{min-height:1.5em;text-align:center;font-weight:600;margin:0 0 10px}
+.board{display:flex;gap:9px;justify-content:center;background:linear-gradient(180deg,#14263f,var(--board));padding:18px 12px;border-radius:16px;margin-bottom:12px;box-shadow:var(--sh),inset 0 0 0 1px rgba(255,255,255,.06)}
+.fl{width:60px;height:80px;border-radius:7px;background:linear-gradient(#22344f 49%,#02060c 50%,#22344f 51%);color:var(--amber);font:700 2.7rem/80px ui-monospace,Menlo,Consolas,monospace;text-align:center;box-shadow:0 4px 8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1);text-shadow:0 0 12px rgba(255,184,28,.5)}
+.fl.cur{outline:2px solid var(--amber);animation:bl 1s steps(2) infinite}
+@keyframes bl{50%{outline-color:transparent}}
+.fl.hint{color:#8fd3ff;text-shadow:0 0 12px rgba(143,211,255,.5)}
+.tm{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:0 0 4px}
+.tm i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));width:100%;border-radius:6px}
+.tm i.low{background:linear-gradient(90deg,var(--bad),#f2a65a)}
+.tt{text-align:center;font-size:.9rem;color:var(--mute);margin-bottom:10px;font-variant-numeric:tabular-nums}
+.fb{min-height:1.5em;text-align:center;font-weight:700;margin:0 0 10px}
 .fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
-#kb{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:10px}
-button.k{min-width:32px;height:42px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;font:600 1rem system-ui,sans-serif;cursor:pointer}
-button.k:active{background:var(--line)}
-.row{display:flex;gap:8px}
-.row button,.opt{height:44px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;font:600 1rem system-ui,sans-serif;cursor:pointer;padding:0 12px}
+#kb{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:12px}
+button.k{min-width:33px;height:44px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;font:700 1rem system-ui,sans-serif;cursor:pointer;box-shadow:0 2px 0 var(--line)}
+button.k:active{transform:translateY(2px);box-shadow:none;background:var(--line)}
+.row{display:flex;gap:8px;margin-bottom:8px}
+.row button,.opt{height:46px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;font:700 1rem system-ui,sans-serif;cursor:pointer;padding:0 12px;box-shadow:0 2px 0 var(--line)}
 .row button{flex:1}
-.opt{display:block;width:100%;text-align:left;margin-bottom:8px;height:auto;min-height:46px;padding:10px 12px}
+.row button.pri{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0}
+.opt{display:block;width:100%;text-align:left;margin-bottom:8px;height:auto;min-height:48px;padding:10px 14px}
 .opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 20%,var(--card))}
 .opt.wrong{opacity:.45;text-decoration:line-through}
 button:disabled{opacity:.45;cursor:default}
-button:focus-visible{outline:3px solid var(--acc);outline-offset:1px}
-.tm{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:0 0 4px}.tm i{display:block;height:100%;background:var(--acc);width:100%}.tm i.low{background:var(--bad)}.tt{text-align:center;font-size:.9rem;color:var(--mute);margin-bottom:10px;font-variant-numeric:tabular-nums}
-.end{text-align:center}.end .big{font-size:2.4rem;font-weight:700;margin:8px 0}
+button:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:1px}
+.end{text-align:center}.end .big{font-size:2.6rem;font-weight:800;margin:6px 0;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nm{flex:2;height:46px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:0 12px;font:600 1rem system-ui,sans-serif}
+.lb{list-style:none;margin:0 0 12px;padding:0}
+.lb li{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:8px;box-shadow:var(--sh)}
+.lb .rk{width:30px;text-align:center;font-size:1.3rem;font-weight:700;color:var(--mute)}
+.lb .nmx{flex:1;font-weight:700;display:flex;flex-direction:column}
+.lb .nmx small{font-weight:400;color:var(--mute)}
+.lb b{font-size:1.2rem;font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
 <main>
-<h1>Gate Code</h1>
-<p style="color:var(--mute);margin:-6px 0 12px;font-size:.9rem">10 Sekunden pro Flug: je schneller, desto mehr Punkte (bis 100). Fehler und Tipps kosten je ein Drittel.</p>
-<div class="tabs" role="group" aria-label="Spielmodus">
+<div class="hd"><div class="logo">✈️</div><h1>Gate Code</h1></div>
+<p class="intro">10 Sekunden pro Flug. Die erste Sekunde ist gratis: Wer in ihr richtig liegt, bekommt volle 100 Punkte, danach sinkt der Wert. Fehler und Tipps kosten je ein Drittel.</p>
+<div class="tabs" role="group" aria-label="Bereich">
 <button id="m1" aria-pressed="true">Code erraten</button>
 <button id="m2" aria-pressed="false">Stadt erraten</button>
+<button id="m3" aria-pressed="false">Bestenliste</button>
 </div>
 <div id="g"></div>
 </main>
@@ -60,16 +79,28 @@ if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch((
 const A=window.AP;
 const $=id=>document.getElementById(id);
 const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-let mode=1,qs,qi,score,done,buf,wrong,hintN,fb,opts,dis,pts,tEnd,tInt;
+let mode=1,qs,qi,score,done,buf,wrong,hintN,fb,opts,dis,pts,tEnd,tInt,lb=false;
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const LK="gc.lb";
+function getLB(){try{return JSON.parse(localStorage.getItem(LK))||[]}catch(e){return[]}}
+function getNm(){try{return localStorage.getItem("gc.nm")||""}catch(e){return""}}
+function saveLB(n,sc,m){n=(n||"").trim().slice(0,14)||"Spieler";try{localStorage.setItem("gc.nm",n);const a=getLB();a.push({n,s:sc,m,d:new Date().toLocaleDateString("de-DE")});a.sort((x,y)=>y.s-x.s);localStorage.setItem(LK,JSON.stringify(a.slice(0,50)))}catch(e){}}
+function setTab(m){[1,2,3].forEach(i=>$("m"+i).setAttribute("aria-pressed",i===m))}
+function renderLB(){const a=getLB().slice(0,10),md=["🥇","🥈","🥉"];
+  $("g").innerHTML='<div class="q"><h2>Bestenliste</h2><small>Die zehn besten Runden auf diesem Gerät</small></div>'+(a.length?'<ol class="lb">'+a.map((e,i)=>'<li><span class="rk">'+(md[i]||i+1)+'</span><span class="nmx">'+esc(e.n)+'<small>'+(e.m===1?"Code erraten":"Stadt erraten")+" · "+esc(e.d)+'</small></span><b>'+e.s+'</b></li>').join("")+'</ol>':'<p class="fb">Noch keine Einträge. Spiel eine Runde!</p>')+'<div class="row"><button class="pri" id="pl">Spielen</button><button id="rs">Zurücksetzen</button></div>';
+  $("pl").onclick=()=>{lb=false;setTab(mode);newGame()};
+  $("rs").onclick=()=>{if(confirm("Bestenliste wirklich löschen?")){try{localStorage.removeItem(LK)}catch(e){}renderLB()}}}
 function newGame(){qs=sh(A).slice(0,10);qi=0;score=0;load()}
 function load(){done=false;buf="";wrong=0;hintN=0;fb="";dis=[];pts=3;tEnd=Date.now()+10000;const q=qs[qi];
   if(mode===2)opts=sh([q].concat(sh(A.filter(a=>a!==q)).slice(0,3)));render();startTimer()}
 function left(){return Math.max(0,3-wrong-hintN)}
 function render(){
   const g=$("g");
+  if(lb){clearInterval(tInt);return renderLB()}
   if(qi>=10){
     const txt="Gate Code "+score+"/1000 ("+(mode===1?"Code erraten":"Stadt erraten")+")";
-    g.innerHTML='<div class="q end"><small>Alle zehn Flüge gelandet</small><div class="big">'+score+' von 1000</div><p>'+(score>=800?"Fast fehlerfrei.":score>=450?"Solide Landung.":"Noch etwas Übung am Gate.")+'</p></div><div class="row"><button onclick="newGame()">Nochmal</button><button id="cp">Ergebnis kopieren</button></div>';
+    g.innerHTML='<div class="q end"><small>Alle zehn Flüge gelandet</small><div class="big">'+score+' von 1000</div><p>'+(score>=800?"Fast fehlerfrei.":score>=450?"Solide Landung.":"Noch etwas Übung am Gate.")+'</p></div><div class="row"><input class="nm" id="nm" maxlength="14" placeholder="Dein Name" value="'+esc(getNm())+'"><button class="pri" id="sv">Eintragen</button></div><div class="row"><button onclick="newGame()">Nochmal</button><button id="cp">Ergebnis kopieren</button></div>';
+    $("sv").onclick=()=>{saveLB($("nm").value,score,mode);lb=true;setTab(3);render()};
     $("cp").onclick=()=>{try{navigator.clipboard.writeText(txt);$("cp").textContent="Kopiert"}catch(e){$("cp").textContent=txt}};return}
   const q=qs[qi];
   let h='<div class="top"><span>Flug '+(qi+1)+' von 10</span><span>Punkte: '+score+'</span></div>'+(done?'':'<div class="tm"><i id="tb"></i></div><div class="tt" id="tt"></div>');
@@ -79,16 +110,16 @@ function render(){
     for(let i=0;i<3;i++){const c=done?q[0][i]:full[i]||"";h+='<div class="fl'+(i<hintN&&!done?" hint":"")+(!done&&i===full.length?" cur":"")+'">'+c+'</div>'}
     h+='</div><p class="fb '+(done?(pts>0?"ok":"bad"):"bad")+'" role="status">'+fb+'</p>';
     if(!done){h+='<div id="kb">'+"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c=>'<button class="k" onclick="typeL(\''+c+'\')">'+c+'</button>').join("")+'<button class="k" style="min-width:60px" onclick="back()">⌫</button></div><div class="row"><button onclick="hint()" '+(left()>1&&hintN<2?"":"disabled")+'>Tipp (−⅓ Bonus)</button></div>'}
-    else h+='<div class="row"><button onclick="nextQ()">'+(qi<9?"Weiter":"Ergebnis")+'</button></div>';
+    else h+='<div class="row"><button class="pri" onclick="nextQ()">'+(qi<9?"Weiter":"Ergebnis")+'</button></div>';
   }else{
     h+='<div class="board">'+q[0].split("").map(c=>'<div class="fl">'+c+'</div>').join("")+'</div><p class="fb '+(done?(pts>0?"ok":"bad"):"bad")+'" role="status">'+fb+'</p>';
     opts.forEach((o,i)=>{h+='<button class="opt'+(done&&o===q?" right":"")+(dis.includes(i)?" wrong":"")+'" '+(done||dis.includes(i)?"disabled":"")+' onclick="pick('+i+')">'+o[1]+'<br><small style="color:var(--mute)">'+o[2]+'</small></button>'});
-    if(done)h+='<div class="row"><button onclick="nextQ()">'+(qi<9?"Weiter":"Ergebnis")+'</button></div>';
+    if(done)h+='<div class="row"><button class="pri" onclick="nextQ()">'+(qi<9?"Weiter":"Ergebnis")+'</button></div>';
   }
   g.innerHTML=h;tick();
 }
 function rem(){return Math.max(0,tEnd-Date.now())}
-function pot(){return Math.round(rem()/100*left()/3)}
+function pot(){return Math.round(Math.min(1,rem()/9000)*100*left()/3)}
 function finish(ok,late){if(done)return;clearInterval(tInt);done=true;pts=ok?pot():0;score+=pts;fb=ok?"Richtig! +"+pts+" Punkte":(late?"Zeit abgelaufen – ":"")+"Das war "+qs[qi][0]+" – 0 Punkte";render()}
 function startTimer(){clearInterval(tInt);if(qi>=10||done)return;tEnd=Date.now()+10000;tick();tInt=setInterval(tick,100)}
 function tick(){if(done)return;const r=rem(),b=$("tb"),t=$("tt");if(b){b.style.width=r/100+"%";b.className=r<3000?"low":""}if(t)t.textContent=(r/1000).toFixed(1)+" s · jetzt "+pot()+" Punkte";if(r<=0)finish(false,true)}
@@ -102,7 +133,7 @@ function pick(i){if(done)return;if(opts[i]===qs[qi])return finish(true);dis.push
 function nextQ(){qi++;load()}
 document.addEventListener("keydown",e=>{if(mode!==1||qi>=10)return;
   if(/^[a-zA-Z]$/.test(e.key))typeL(e.key.toUpperCase());else if(e.key==="Backspace")back();else if(e.key==="Enter"&&done)nextQ()});
-[["m1",1],["m2",2]].forEach(([id,m])=>$(id).onclick=()=>{mode=m;$("m1").setAttribute("aria-pressed",m===1);$("m2").setAttribute("aria-pressed",m===2);newGame()});
+[1,2,3].forEach(m=>$("m"+m).onclick=()=>{if(m===3){lb=true;setTab(3);render()}else{lb=false;mode=m;setTab(m);newGame()}});
 newGame();
 </script>
 </body>
